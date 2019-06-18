@@ -13,7 +13,7 @@ app.use(morgan(morganOption))
 app.use(cors())
 app.use(helmet())
 
-app.use(function(error, req, res, next) {
+app.use(function (error, req, res, next) {
   let response
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } }
@@ -24,7 +24,7 @@ app.use(function(error, req, res, next) {
   res.status(500).json(response)
 })
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
   res.send('Hello, world!')
 })
 module.exports = app
