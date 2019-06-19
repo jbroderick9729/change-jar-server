@@ -3,6 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
+const categoriesRouter = require('./Categories/CategoriesRouter')
 const { NODE_ENV } = require('./config')
 
 const app = express()
@@ -12,6 +13,8 @@ const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common'
 app.use(morgan(morganOption))
 app.use(cors())
 app.use(helmet())
+
+app.use('/api/categories', categoriesRouter)
 
 app.use(function (error, req, res, next) {
   let response

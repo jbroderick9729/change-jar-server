@@ -6,5 +6,8 @@ const categoriesRouter = express.Router()
 categoriesRouter
     .route('/')
     .get((req, res, next) => {
-        res.json({})
+        CategoriesService.getCategories(req.app.get('db'))
+            .then(cats => res.json(cats))
     })
+
+module.exports = categoriesRouter
