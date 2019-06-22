@@ -4,7 +4,10 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const categoriesRouter = require('./Categories/CategoriesRouter')
+const expensesRouter = require('./Expenses/ExpensesRouter')
+
 const { NODE_ENV } = require('./config')
+
 
 const app = express()
 
@@ -15,6 +18,8 @@ app.use(cors())
 app.use(helmet())
 
 app.use('/api/categories', categoriesRouter)
+app.use('/api/expenses', expensesRouter)
+
 
 app.use(function (error, req, res, next) {
   let response
