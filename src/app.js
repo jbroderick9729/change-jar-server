@@ -5,6 +5,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const categoriesRouter = require('./Categories/CategoriesRouter')
 const expensesRouter = require('./Expenses/ExpensesRouter')
+const budgetAllotmentsRouter = require('./BudgetAllotments/BudgetAllotmentsRouter')
 
 const { NODE_ENV } = require('./config')
 
@@ -19,7 +20,7 @@ app.use(helmet())
 
 app.use('/api/categories', categoriesRouter)
 app.use('/api/expenses', expensesRouter)
-
+app.use('/api/budget-allotments', budgetAllotmentsRouter)
 
 app.use(function (error, req, res, next) {
   let response

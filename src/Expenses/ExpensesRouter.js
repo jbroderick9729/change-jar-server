@@ -22,4 +22,13 @@ expensesRouter
             .then(expense => res.status(201).end())
     })
 
+expensesRouter
+    .route('/:id')
+    .get((req, res, next) => {
+        const { id } = req.params
+        ExpensesService.getExpensesByCategory(req.app.get('db'), id)
+            .then(expenses => res.status(200).json(expenses))
+
+    })
+
 module.exports = expensesRouter
