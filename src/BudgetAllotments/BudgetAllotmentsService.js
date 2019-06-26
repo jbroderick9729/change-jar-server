@@ -7,6 +7,11 @@ const BudgetAllotmentsService = {
             .insert(newBudgetAllotment)
             .returning('*')
     },
+    updateBudgetAllotment(knex, id, amountBudgeted) {
+        return knex('budget-allotments')
+            .where({ id })
+            .update({ amountBudgeted })
+    }
 }
 
 module.exports = BudgetAllotmentsService
