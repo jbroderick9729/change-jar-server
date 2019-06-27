@@ -22,4 +22,18 @@ UsersRouter.route('/')
     )
   })
 
+UsersRouter.route('/:userId')
+  .get((req, res, next) => {
+    const { userId } = req.params
+    UsersService.getUserById(req.app.get('db'), userId).then(user =>
+      res.status(200).json(user)
+  )
+  .patch(jsonParser, (req, res, next) => {
+    const { userId } = req.params
+    const { income } = req.body
+    UsersService.updateIncome(req.app.get('db'), userId, income)
+      .then(user => res.status(204).end())
+  }
+})
+
 module.exports = UsersRouter

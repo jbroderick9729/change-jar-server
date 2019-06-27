@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS "budget-allotments";
+DROP TABLE IF EXISTS users;
