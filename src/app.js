@@ -3,9 +3,10 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
-const categoriesRouter = require('./Categories/CategoriesRouter')
-const expensesRouter = require('./Expenses/ExpensesRouter')
-const budgetAllotmentsRouter = require('./BudgetAllotments/BudgetAllotmentsRouter')
+const categoriesRouter = require('./Categories/categories-router')
+const expensesRouter = require('./Expenses/expenses-router')
+const budgetAllotmentsRouter = require('./BudgetAllotments/budget-allotments-router')
+const usersRouter = require('./Users/users-router')
 
 const { NODE_ENV } = require('./config')
 
@@ -21,6 +22,7 @@ app.use(helmet())
 app.use('/api/categories', categoriesRouter)
 app.use('/api/expenses', expensesRouter)
 app.use('/api/budget-allotments', budgetAllotmentsRouter)
+app.use('/api/users', usersRouter)
 
 app.use(function (error, req, res, next) {
   let response

@@ -4,8 +4,9 @@ const firstDayOfCurrentMonth = new Date(date.getFullYear(), date.getMonth(), 1)
 
 const ExpensesService = {
     getExpenses(knex) {
-        return knex.select('*')
-            .from('expenses')
+        return knex('expenses')
+            .join('categories', 'expenses.category', '=', 'categories.id')
+            .select('expenses.id', 'expenses.date', 'expenses.amount', 'expenses.created_at', 'expenses.modified_at', 'expenses.category', 'expenses.description', 'categories.category_name')
             .where('date', '>', firstDayOfCurrentMonth)
     },
     getExpensesByCategory(knex, category) {
@@ -22,3 +23,4 @@ const ExpensesService = {
 }
 
 module.exports = ExpensesService
+

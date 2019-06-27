@@ -9,7 +9,7 @@ const BudgetAllotmentsService = {
     },
     updateBudgetAllotment(knex, id, amountBudgeted) {
         return knex('budget-allotments')
-            .where({ id })
+            .where({ category: id })
             .update({ amountBudgeted })
     }
 }

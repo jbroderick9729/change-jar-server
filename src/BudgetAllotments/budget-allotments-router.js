@@ -19,11 +19,10 @@ budgetAllotmentsRouter
             .then(budgetAllotment => res.status(201).end())
     })
 
-    budgetAllotmentsRouter
+budgetAllotmentsRouter
     .route('/id')
     .patch(jsonParser, (req, res, next) => {
-        const { id } = req.params
-        const { newBudgetAllotment } = req.body
+        const { id, newBudgetAllotment } = req.body
         BudgetAllotmentsService.updateBudgetAllotment(req.app.get('db'), id, newBudgetAllotment)
     })
 
