@@ -1,39 +1,72 @@
 const express = require('express')
+const path = require('path')
 const UsersService = require('./UsersService')
+const { requireAuth } = require('../middleware/jwt-auth')
 
-const UsersRouter = express.Router()
-const jsonParser = express.json()
+const usersRouter = express.Router()
+const jsonBodyParser = express.json()
 
-UsersRouter.route('/')
-  .get((req, res, next) => {
-    UsersService.getUsers(req.app.get('db')).then(users =>
-      res.status(200).json(users)
-    )
+usersRouter
+  .route('/')
+  .get(requireAuth, (req, res, next) => {
+    UsersService.getUserById(req.app.get('db'), req.user.id)
+      .then(user => res.json(user))
   })
-  .post(jsonParser, (req, res, next) => {
-    const { first_name, last_name, username } = req.body
-    const newUser = {
-      first_name,
-      last_name,
-      username
-    }
-    UsersService.createUser(req.app.get('db'), newUser).then(user =>
-      res.status(201).end()
-    )
-  })
-
-UsersRouter.route('/:userId')
-  .get((req, res, next) => {
-    const { userId } = req.params
-    UsersService.getUserById(req.app.get('db'), userId).then(user =>
-      res.status(200).json(user)
-  )
-  .patch(jsonParser, (req, res, next) => {
-    const { userId } = req.params
+  .patch(requireAuth, jsonBodyParser, (req, res, next) => {
     const { income } = req.body
-    UsersService.updateIncome(req.app.get('db'), userId, income)
-      .then(user => res.status(204).end())
-  }
-})
+    const { id } = req.user
 
-module.exports = UsersRouter
+    UsersService.updateIncome(req.app.get('db'), id, income)
+      .then(user => res.status(201).end())
+  })
+
+usersRouter
+  .post('/register', jsonBodyParser, (req, res, next) => {
+    const { username, password, first_name, last_name } = req.body
+    for (const field of ['username', 'password', 'first_name'])
+      if (!req.body[field])
+        return res.status(400).json({
+          error: `Missing '${field}' in request body`
+        })
+
+    // TODO: check user_name doesn't start with spaces
+
+    const passwordError = UsersService.validatePassword(password)
+
+    if (passwordError)
+      return res.status(400).json({ error: passwordError })
+
+    UsersService.hasUserWithUserName(
+      req.app.get('db'),
+      username
+    )
+      .then(hasUserWithUserName => {
+        if (hasUserWithUserName)
+          return res.status(400).json({ error: `Username already taken` })
+
+        return UsersService.hashPassword(password)
+          .then(hashedPassword => {
+            const newUser = {
+              username,
+              password: hashedPassword,
+              first_name,
+              last_name,
+            }
+
+
+            return UsersService.insertUser(
+              req.app.get('db'),
+              newUser
+            )
+              .then(user => {
+                res
+                  .status(201)
+                  .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                  .json(UsersService.serializeUser(user))
+              })
+          })
+      })
+      .catch(next)
+  })
+
+module.exports = usersRouter

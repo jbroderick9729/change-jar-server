@@ -1,11 +1,12 @@
 const CategoriesService = {
-    getCategories(knex) {
-        return knex.select('*').from('categories')
+    getCategories(knex, userId) {
+        return knex.select('*').from('categories').where({ user_id: userId })
     },
-    createCategory(knex, newCategory) {
+    createCategory(knex, newCategory, userId) {
         return knex('categories')
             .insert(newCategory)
             .returning('*')
+            .where({ user_id: userId })
     },
 }
 

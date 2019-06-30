@@ -3,8 +3,8 @@ CREATE TABLE users (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     username TEXT NOT NULL,
-    password,
+    password VARCHAR NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     modified_at TIMESTAMP NOT NULL DEFAULT now(),
-    income DECIMAL(19,4) NOT NULL,
+    income DECIMAL(19,4)
 );

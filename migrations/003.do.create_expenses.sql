@@ -6,5 +6,5 @@ CREATE TABLE expenses (
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     modified_at TIMESTAMP NOT NULL DEFAULT now(),
     category INTEGER REFERENCES categories(id) NOT NULL,
-    user INTEGER REFERENCES users(id) NOT NULL
+    user_id INTEGER REFERENCES users(id) NOT NULL
 );

@@ -3,22 +3,24 @@ const date = new Date()
 const firstDayOfCurrentMonth = new Date(date.getFullYear(), date.getMonth(), 1)
 
 const ExpensesService = {
-    getExpenses(knex) {
+    getExpenses(knex, userId) {
         return knex('expenses')
             .join('categories', 'expenses.category', '=', 'categories.id')
             .select('expenses.id', 'expenses.date', 'expenses.amount', 'expenses.created_at', 'expenses.modified_at', 'expenses.category', 'expenses.description', 'categories.category_name')
             .where('date', '>', firstDayOfCurrentMonth)
+            .andWhere('expenses.user_id', '=', userId)
     },
-    getExpensesByCategory(knex, category) {
-        return knex.select('*')
-            .from('expenses')
-            .where('date', '>', firstDayOfCurrentMonth)
-            .andWhere({ category })
-    },
-    createExpense(knex, newExpense) {
+    // getExpensesByCategory(knex, category) {
+    //     return knex.select('*')
+    //         .from('expenses')
+    //         .where('date', '>', firstDayOfCurrentMonth)
+    //         .andWhere({ category })
+    // },
+    createExpense(knex, newExpense, userId) {
         return knex.into('expenses')
             .insert(newExpense)
             .returning('*')
+            .where({ user_id: userId })
     },
 }
 

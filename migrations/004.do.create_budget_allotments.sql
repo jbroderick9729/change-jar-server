@@ -3,5 +3,5 @@ CREATE TABLE "budget-allotments" (
     amount DECIMAL(19,4) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     category INTEGER REFERENCES categories(id) NOT NULL,
-    user INTEGER REFERENCES users(id) NOT NULL
+    user_id INTEGER REFERENCES users(id) NOT NULL
 );

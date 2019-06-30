@@ -7,6 +7,7 @@ const categoriesRouter = require('./Categories/categories-router')
 const expensesRouter = require('./Expenses/expenses-router')
 const budgetAllotmentsRouter = require('./BudgetAllotments/budget-allotments-router')
 const usersRouter = require('./Users/users-router')
+const authRouter = require('./Auth/auth-router')
 
 const { NODE_ENV } = require('./config')
 
@@ -23,6 +24,7 @@ app.use('/api/categories', categoriesRouter)
 app.use('/api/expenses', expensesRouter)
 app.use('/api/budget-allotments', budgetAllotmentsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/auth', authRouter)
 
 app.use(function (error, req, res, next) {
   let response

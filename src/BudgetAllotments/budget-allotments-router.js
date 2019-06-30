@@ -1,29 +1,26 @@
 const express = require('express')
 const BudgetAllotmentsService = require('./BudgetAllotmentsService')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const budgetAllotmentsRouter = express.Router()
 const jsonParser = express.json()
 
 budgetAllotmentsRouter
     .route('/')
-    .get((req, res, next) => {
-        BudgetAllotmentsService.getBudgetAllotments(req.app.get('db'))
-            .then(allotments => res.status(200).json(allotments))
+    .get(requireAuth, (req, res, next) => {
+        BudgetAllotmentsService.getBudgetAllotments(req.app.get('db'), req.user.id)
+            .then(allotments => res.json(allotments))
     })
-    .post(jsonParser, (req, res, next) => {
-        const { budget_name } = req.body
+    .post(requireAuth, jsonParser, (req, res, next) => {
+        const { category, amount } = req.body
+        const { id } = req.user
         const newBudgetAllotment = {
-            budget_name
+            amount,
+            category,
+            user_id: id
         }
         BudgetAllotmentsService.createBudgetAllotment(req.app.get('db'), newBudgetAllotment)
-            .then(budgetAllotment => res.status(201).end())
-    })
-
-budgetAllotmentsRouter
-    .route('/id')
-    .patch(jsonParser, (req, res, next) => {
-        const { id, newBudgetAllotment } = req.body
-        BudgetAllotmentsService.updateBudgetAllotment(req.app.get('db'), id, newBudgetAllotment)
+            .then(allot => res.status(201).end())
     })
 
 module.exports = budgetAllotmentsRouter
