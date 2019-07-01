@@ -1,6 +1,6 @@
 const express = require('express')
 const CategoriesService = require('./CategoriesService')
-const { requireAuth } = require('../middleware/jwt-auth')
+const { requireAuth } = require('../Middleware/jwt-auth')
 
 const categoriesRouter = express.Router()
 const jsonParser = express.json()

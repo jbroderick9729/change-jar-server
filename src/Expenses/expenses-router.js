@@ -1,6 +1,6 @@
 const express = require('express')
 const ExpensesService = require('./ExpensesService')
-const { requireAuth } = require('../middleware/jwt-auth')
+const { requireAuth } = require('../Middleware/jwt-auth')
 
 const expensesRouter = express.Router()
 const jsonParser = express.json()

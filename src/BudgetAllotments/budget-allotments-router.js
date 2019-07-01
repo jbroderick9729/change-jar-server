@@ -1,6 +1,6 @@
 const express = require('express')
 const BudgetAllotmentsService = require('./BudgetAllotmentsService')
-const { requireAuth } = require('../middleware/jwt-auth')
+const { requireAuth } = require('../Middleware/jwt-auth')
 
 const budgetAllotmentsRouter = express.Router()
 const jsonParser = express.json()
