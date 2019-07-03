@@ -19,7 +19,7 @@ categoriesRouter
             user_id: id
         }
         CategoriesService.createCategory(req.app.get('db'), newCategory)
-            .then(cat => res.status(201).end())
+            .then(cat => res.status(201).json({ message: "created" }))
     })
 
 module.exports = categoriesRouter

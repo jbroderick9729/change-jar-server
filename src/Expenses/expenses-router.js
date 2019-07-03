@@ -13,7 +13,7 @@ expensesRouter
     })
     .post(requireAuth, jsonParser, (req, res, next) => {
         const { date, description, amount, category } = req.body
-        
+
         const newExpense = {
             date,
             description,
@@ -22,16 +22,6 @@ expensesRouter
             user_id: req.user.id
         }
         ExpensesService.createExpense(req.app.get('db'), newExpense, req.user.id)
-            .then(expense => res.status(201).end())
+            .then(expense => res.status(201).json({ message: "created" }))
     })
-
-// expensesRouter
-//     .route('/:id')
-//     .get(requireAuth, (req, res, next) => {
-//         const { id } = req.params
-//         ExpensesService.getExpensesByCategory(req.app.get('db'), id)
-//             .then(expenses => res.status(200).json(expenses))
-
-//     })
-
 module.exports = expensesRouter

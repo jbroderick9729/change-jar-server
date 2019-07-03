@@ -17,19 +17,18 @@ usersRouter
     const { id } = req.user
 
     UsersService.updateIncome(req.app.get('db'), id, income)
-      .then(user => res.status(201).end())
+      .then(user => res.status(201).json({ message: "created" }))
   })
 
 usersRouter
   .post('/register', jsonBodyParser, (req, res, next) => {
+    console.log('register')
     const { username, password, first_name, last_name } = req.body
     for (const field of ['username', 'password', 'first_name'])
       if (!req.body[field])
         return res.status(400).json({
           error: `Missing '${field}' in request body`
         })
-
-    // TODO: check user_name doesn't start with spaces
 
     const passwordError = UsersService.validatePassword(password)
 

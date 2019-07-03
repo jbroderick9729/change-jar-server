@@ -10,12 +10,6 @@ const ExpensesService = {
             .where('date', '>', firstDayOfCurrentMonth)
             .andWhere('expenses.user_id', '=', userId)
     },
-    // getExpensesByCategory(knex, category) {
-    //     return knex.select('*')
-    //         .from('expenses')
-    //         .where('date', '>', firstDayOfCurrentMonth)
-    //         .andWhere({ category })
-    // },
     createExpense(knex, newExpense, userId) {
         return knex.into('expenses')
             .insert(newExpense)

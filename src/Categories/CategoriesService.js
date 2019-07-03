@@ -6,7 +6,6 @@ const CategoriesService = {
         return knex('categories')
             .insert(newCategory)
             .returning('*')
-            .where({ user_id: userId })
     },
 }
 
