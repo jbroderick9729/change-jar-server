@@ -20,7 +20,7 @@ budgetAllotmentsRouter
             user_id: id
         }
         BudgetAllotmentsService.createBudgetAllotment(req.app.get('db'), newBudgetAllotment)
-            .then(allot => res.status(201).end())
+            .then(allot => res.status(201).json({ message: 'created' }))
     })
 
 module.exports = budgetAllotmentsRouter
