@@ -1,5 +1,6 @@
 # Change Jar
-The API is organized to the following sections:
+The API is organized in
+to the following sections:
 
 Auth (Registration, login) & JWT Middleware
 Categories (Budget categories created by the user and associated with their ID)
